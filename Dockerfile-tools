@@ -12,8 +12,7 @@ ENV PATH=${PATH}:/opt/ref/scala/bin
 RUN sbt sbt-version && \
     scala -version
 
-RUN mkdir /opt/ref/java-linux && \
-    cp -rf /usr/lib/jvm/java-8* /opt/ref/java-linux/
+RUN cp -rf /usr/lib/jvm/java-8* /opt/ref/java-linux
 
 CMD \[ "$(ls -A /opt/tools)" \] || cp -rf /opt/ref/* /opt/tools
 
