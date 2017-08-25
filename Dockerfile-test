@@ -1,0 +1,4 @@
+FROM scalaspark-fun-tools
+
+CMD sbt test
+

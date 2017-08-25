@@ -1,0 +1,21 @@
+FROM bigtruedata/sbt:0.13.13-2.11.8 as scala
+FROM bennyhat/oracle-jdk-osx:1.8.0_131 as java-osx
+FROM jupyter/all-spark-notebook:8f56e3c47fec as sparky
+
+USER root
+RUN mkdir -p /opt/ref
+COPY --from=scala /usr/local /opt/ref/scala
+COPY --from=java-osx /usr/lib/jvm/oracle-jdk-* /opt/ref/java-osx
+
+ENV PATH=${PATH}:/opt/ref/scala/bin
+
+RUN sbt sbt-version && \
+    scala -version
+
+RUN mkdir /opt/ref/java-linux && \
+    cp -rf /usr/lib/jvm/java-8* /opt/ref/java-linux/
+
+CMD \[ "$(ls -A /opt/tools)" \] || cp -rf /opt/ref/* /opt/tools
+
+USER jovyan
+

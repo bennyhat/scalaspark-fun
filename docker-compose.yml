@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  tools:
+    image: scalaspark-fun-tools
+    build:
+      context: .
+      dockerfile: Dockerfile-tools
+    volumes:
+      - "${PWD}/tools:/opt/tools"
+  test:
+    image: scalaspark-fun-test
+    build:
+      context: .
+      dockerfile: Dockerfile-test
+    working_dir: ${PWD}
+    volumes:
+      - "${PWD}:${PWD}"
+    depends_on:
+      - tools
