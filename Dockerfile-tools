@@ -9,12 +9,12 @@ COPY --from=java-osx /usr/lib/jvm/oracle-jdk-* /opt/ref/java-osx
 
 ENV PATH=${PATH}:/opt/ref/scala/bin
 
-RUN sbt sbt-version && \
+ADD build.sbt .
+
+RUN sbt -Dsbt.ivy.home=/var/tmp/ivy copyResources && \
     scala -version
 
 RUN cp -rf /usr/lib/jvm/java-8* /opt/ref/java-linux
 
-CMD \[ "$(ls -A /opt/tools)" \] || cp -rf /opt/ref/* /opt/tools
-
-USER jovyan
+CMD \[ "$(ls -A /opt/tools)" \] || cp -rf /opt/ref/* /opt/tools && chown -R ${USER}:${USER} /opt/tools
 

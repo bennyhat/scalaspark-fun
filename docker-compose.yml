@@ -5,8 +5,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-tools
+    environment:
+      - USER
     volumes:
       - "${PWD}/tools:/opt/tools"
+      - "/etc/passwd:/etc/passwd"
+      - "/etc/group:/etc/group"
   test:
     image: scalaspark-fun-test
     build:
@@ -14,6 +18,7 @@ services:
       dockerfile: Dockerfile-test
     working_dir: ${PWD}
     volumes:
-      - "${PWD}:${PWD}"
+      - "${PWD}/src:${PWD}/src"
+      - "${PWD}/build.sbt:${PWD}/build.sbt"
     depends_on:
       - tools

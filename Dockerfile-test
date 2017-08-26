@@ -1,4 +1,4 @@
 FROM scalaspark-fun-tools
 
-CMD sbt test
+CMD sbt -Dsbt.ivy.home=/var/tmp/ivy test
 
