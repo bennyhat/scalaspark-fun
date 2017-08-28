@@ -16,5 +16,8 @@ RUN sbt -Dsbt.ivy.home=/var/tmp/ivy copyResources && \
 
 RUN cp -rf /usr/lib/jvm/java-8* /opt/ref/java-linux
 
-CMD \[ "$(ls -A /opt/tools)" \] || cp -rf /opt/ref/* /opt/tools && chown -R ${USER}:${USER} /opt/tools
+CMD \[ "$(ls -A /opt/tools)" \] || \
+    cp -rf /opt/ref/* /opt/tools && \
+    chown -R ${USER}:${USER} /opt/tools 2> /dev/null || \
+    exit 0
 
